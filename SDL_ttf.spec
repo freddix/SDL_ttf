@@ -1,13 +1,14 @@
 Summary:	Simple DirectMedia Layer - ttf handling
 Name:		SDL_ttf
 Version:	2.0.11
-Release:	1
+Release:	2
 License:	LGPL v2+
 Group:		Libraries
 Source0:	http://www.libsdl.org/projects/SDL_ttf/release/%{name}-%{version}.tar.gz
 # Source0-md5:	61e29bd9da8d245bc2471d1b2ce591aa
+Patch0:		bug1433.patch
 URL:		http://www.libsdl.org/projects/SDL_ttf/
-BuildRequires:	OpenGL-GLU-devel
+BuildRequires:	Mesa-GLU-devel
 BuildRequires:	SDL-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -30,6 +31,7 @@ Header files and more to develop SDL_ttf applications.
 
 %prep
 %setup -q
+%patch0 -p0
 
 %build
 %{__libtoolize}
@@ -50,6 +52,8 @@ install -d $RPM_BUILD_ROOT%{_bindir}
 
 install .libs/showfont $RPM_BUILD_ROOT%{_bindir}/sdlfont
 
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/*.la
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -66,7 +70,6 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libSDL_ttf.so
-%{_libdir}/libSDL_ttf.la
 %{_includedir}/SDL/SDL_ttf.h
 %{_pkgconfigdir}/SDL_ttf.pc
 
